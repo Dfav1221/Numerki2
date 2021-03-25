@@ -2,7 +2,7 @@
 
 #include <iostream>
 #include <map>
-#include <iomanip>
+#include <math.h>
 
 using namespace std;
 
@@ -18,13 +18,11 @@ private:
 
 public:
 
-	Matrix() {
-	}
+	Matrix() {}
 
 	//[Index(x,y)] , równowa¿ne zapisowi [x][y]
-	int operator[](const Index& index) {
+	double operator[](const Index& index) {
 		return cell[index]; 
-		
 	}
 	
 	bool buildMatrix() {
@@ -44,7 +42,7 @@ public:
 				x++;
 			}
 		}
-		catch(const exception& e){
+		catch(const exception& e){ // W przypadku b³êdu zakoñcz program
 			cout << "Failed to fill matrix";
 			return false;
 		}
@@ -52,11 +50,12 @@ public:
 		return true;
 	}
 	
+	//Wypisanie w konsoli pierwszych N x N elementów macierzy
+
 	void printInRange(int n) {
 		for (int i = 0; i < n; i++) {
-			cout << left;
 			for (int j = 0; j < n; j++) {
-				cout << cell[Index(i, j)] << setw(2) << " ";
+				cout << cell[Index(i, j)] << " ";
 			}
 			cout << endl;
 		}
@@ -64,11 +63,51 @@ public:
 
 };
 
+class Vector {
+private:
+	map<unsigned int, double> cell;
 
+public:
+	double operator[](const int& index){
+		return cell[index];
+	}
+
+	bool buildVector() {
+		try {
+
+			for (int i = 0; i < N; i++) {
+				cell[i] = sin(i);
+				cout << sin(i);
+			}
+		}
+		catch (const exception& e) {
+			cout << "Wyjatek przy tworzeniu wektora ";
+			return false;
+		}
+		return true;
+	}
+
+	void printInRange(int n) {
+		for (int i = 0; i < n; i++) {
+			cout << cell[i] << " ";
+		}
+		cout << endl;
+	}
+
+};
 
 int main() {
 	Matrix matrix;
+	Vector b;
+
 	if (!matrix.buildMatrix())
-		return 0;
+		return -1;
+	if (!b.buildVector())
+		return -2;
+
 	matrix.printInRange(10);
+
+	cout << endl;
+
+	b.printInRange(10);
 }
